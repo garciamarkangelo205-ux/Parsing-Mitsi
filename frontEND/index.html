@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Additional Payables</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="sidebar-brand"></div>
+
+      <nav class="sidebar-nav">
+
+        <button class="nav-item">
+          <span class="nav-icon">▦</span>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" id="accountingToggle">
+          <span class="nav-icon">▣</span>
+          <span>Accounting</span>
+
+          <span class="chevron">⌄</span>
+        </button>
+
+        <div class="submenu" id="accountingMenu">
+
+          <button class="submenu-item active">
+            Additional Payables
+          </button>
+
+        </div>
+
+      </nav>
+
+    </aside>
+
+
+    <!-- MAIN AREA -->
+    <section class="main-area">
+
+      <!-- TOP BAR -->
+      <header class="topbar">
+
+        <div class="breadcrumbs">
+          <span>▦</span>
+
+          <span>E-Claims Staging</span>
+
+          <span>/</span>
+
+          <strong>
+            Additional Payables
+          </strong>
+        </div>
+
+
+        <div class="profile">
+
+          <span>▦</span>
+
+          <div class="avatar">
+            P
+          </div>
+
+          <span>
+            USER PROFILE
+          </span>
+
+          <span>
+            ⌄
+          </span>
+
+        </div>
+
+      </header>
+
+
+      <!-- CONTENT -->
+      <main class="content">
+
+        <div class="page-heading-row">
+
+          <h1>
+            Additional Payables
+          </h1>
+
+
+          <div class="heading-actions">
+
+            <input
+              id="fileInput"
+              type="file"
+              accept=".xlsx,.xls"
+              hidden
+            />
+
+
+            <button
+              id="uploadButton"
+              class="btn btn-upload"
+            >
+              ⇧ Upload
+            </button>
+
+
+            <button
+              id="recapButton"
+              class="btn btn-recap"
+            >
+              ▤ Generate Recap
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- FILTERS -->
+        <section class="filter-card">
+
+          <div class="filter-grid">
+
+            <label class="field">
+
+              <span>DATE FROM</span>
+
+              <input
+                id="dateFrom"
+                type="date"
+              />
+
+            </label>
+
+
+            <label class="field">
+
+              <span>DATE TO</span>
+
+              <input
+                id="dateTo"
+                type="date"
+              />
+
+            </label>
+
+
+            <label class="field">
+
+              <span>SHOW ENTRIES</span>
+
+              <select id="pageSize">
+
+                <option value="5">
+                  5
+                </option>
+
+                <option value="10">
+                  10
+                </option>
+
+                <option value="25">
+                  25
+                </option>
+
+                <option value="50" selected>
+                  50
+                </option>
+
+                <option value="100">
+                  100
+                </option>
+
+              </select>
+
+            </label>
+
+
+            <label class="field">
+
+              <span>REFERENCE</span>
+
+              <input
+                id="referenceFilter"
+                type="text"
+                placeholder="Filter Reference"
+              />
+
+            </label>
+
+
+            <label class="field">
+
+              <span>PAYEE</span>
+
+              <input
+                id="payeeFilter"
+                type="text"
+                placeholder="Filter Payee"
+              />
+
+            </label>
+
+
+            <label class="field">
+
+              <span>PARTICULARS</span>
+
+              <input
+                id="particularsFilter"
+                type="text"
+                placeholder="Filter Particulars"
+              />
+
+            </label>
+
+
+            <label class="field">
+
+              <span>BUS</span>
+
+              <input
+                id="busFilter"
+                type="text"
+                placeholder="Filter Bus"
+              />
+
+            </label>
+
+
+            <label class="field">
+
+              <span>ACCOUNT CODE</span>
+
+              <input
+                id="accountCodeFilter"
+                type="text"
+                placeholder="Filter Account Code"
+              />
+
+            </label>
+
+          </div>
+
+
+          <div class="status-row">
+
+            <span id="statusText">
+              Ready. Upload an Excel file to begin.
+            </span>
+
+          </div>
+
+        </section>
+
+
+        <!-- TABLE -->
+        <section class="table-card">
+
+          <div class="table-scroll">
+
+            <table>
+
+              <thead>
+
+                <tr class="header-top">
+
+                  <th rowspan="2">
+                    <input
+                      id="selectAll"
+                      type="checkbox"
+                    />
+                  </th>
+
+                  <th rowspan="2">
+                    DATE
+                  </th>
+
+                  <th rowspan="2">
+                    REFERENCE
+                  </th>
+
+                  <th rowspan="2">
+                    PAYEE
+                  </th>
+
+                  <th rowspan="2">
+                    PARTICULARS
+                  </th>
+
+                  <th rowspan="2">
+                    BUS
+                  </th>
+
+                  <th
+                    colspan="3"
+                    class="sundries-title"
+                  >
+                    SUNDRIES
+                  </th>
+
+                </tr>
+
+
+                <tr class="header-bottom">
+
+                  <th>
+                    ACCOUNT CODE
+                  </th>
+
+                  <th>
+                    DEBIT
+                  </th>
+
+                  <th>
+                    CREDIT
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="tableBody"></tbody>
+
+
+              <tfoot>
+
+                <tr>
+
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+
+                  <td class="total-label">
+                    TOTAL:
+                  </td>
+
+                  <td
+                    id="totalDebit"
+                    class="money"
+                  >
+                    -
+                  </td>
+
+                  <td
+                    id="totalCredit"
+                    class="money"
+                  >
+                    -
+                  </td>
+
+                </tr>
+
+              </tfoot>
+
+            </table>
+
+          </div>
+
+
+          <!-- PAGINATION -->
+          <div class="table-footer">
+
+            <div id="entriesText">
+              Showing 0 to 0 of 0 entries
+            </div>
+
+
+            <div class="pagination">
+
+              <button
+                id="prevBtn"
+                class="page-btn"
+              >
+                Previous
+              </button>
+
+
+              <div id="pageNumbers"></div>
+
+
+              <button
+                id="nextBtn"
+                class="page-btn"
+              >
+                Next
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+      </main>
+
+    </section>
+
+  </div>
+
+
+  <div
+    id="toast"
+    class="toast"
+  ></div>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
